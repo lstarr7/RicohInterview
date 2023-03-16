@@ -31,19 +31,6 @@ def extract_info(filename):
 def sort_by_ready(order):
     return dict(sorted(order.items(), key=lambda item: item[1]["Time Order is Ready"]))
 
-
-orders = extract_info("orders.txt")
-# creates the sorted order dictionary the orders are sorted by estimated time to prepare
-sortedOrders = sort_by_ready(orders)
-adjMatrix = [
-    [0, 2, math.inf, math.inf, math.inf, math.inf],
-    [2, 0, 3, 2, 1, math.inf],
-    [math.inf, 3, 0, 1, 2, math.inf],
-    [math.inf, 2, 1, 0, 1, 4],
-    [math.inf, 1, 2, 1, 0, 3],
-    [math.inf, math.inf, math.inf, 4, 3, 0],
-]  # restaurant index = 0 main st index =1 elm st index = 2 oak st index = 3 pine st index = 4 cedar_st index  = 5
-
 # I chose to implment the floyd_warshall method from chosing the shortest path
 def floyd_warshall(adjMatrix):
     global nextVert, adjc_matrix
@@ -188,6 +175,15 @@ def order_processing(sortedOrders):
 
     print("Total Distance Traveled: " + str(totalDistance))
 
-
+adjMatrix = [
+    [0, 2, math.inf, math.inf, math.inf, math.inf],
+    [2, 0, 3, 2, 1, math.inf],
+    [math.inf, 3, 0, 1, 2, math.inf],
+    [math.inf, 2, 1, 0, 1, 4],
+    [math.inf, 1, 2, 1, 0, 3],
+    [math.inf, math.inf, math.inf, 4, 3, 0],
+]  # restaurant index = 0 main st index =1 elm st index = 2 oak st index = 3 pine st index = 4 cedar_st index  = 5
+# creates the sorted order dictionary the orders are sorted by estimated time to prepare
+sortedOrders = sort_by_ready(extract_info("orders.txt"))
 floyd_warshall(adjMatrix)
 order_processing(sortedOrders)
